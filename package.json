@@ -15,12 +15,15 @@
   "files": [
   "README.md",
   "resources/demo.gif",
-  "resources/logo"
+  "resources/logo.png",
+  "LICENSE",
+  "src/**/*",
+  "out/*"
   ],
   "displayName": "Neovim UI Modes",
   "description": "Adjust UI colors dynamically based on NVim modes",
   "icon": "resources/logo.png",
-  "version": "0.8.1",
+  "version": "0.8.3",
   "license": "MIT",
   "engines": {
     "vscode": "^1.96.0"
@@ -62,7 +65,7 @@
     "configuration": {
       "title": "nvim-ui",
       "properties": {
-        "nvim-ui.ColorCustomizationsByModes": {
+        "nvim-theme.ColorCustomizationsByModes": {
           "type": "object",
           "default": {
             "normal": {
@@ -108,10 +111,6 @@
   },
   "scripts": {
     "build": "tsc --project tsconfig.json",
-    "watch": "tsc --watch",
-    "lint": "eslint 'src/**/*.{ts,tsx}'",
-    "format": "prettier --write 'src/**/*.{ts,tsx,json,md}'",
-    "test": "mocha --require ts-node/register src/**/*.test.ts",
     "package": "vsce package",
     "prepare": "npm run build"
   },
@@ -123,6 +122,6 @@
     "eslint": "^9.17.0",
     "prettier": "^3.4.2",
     "typescript": "^5.7.2",
-    "vsce": "^1.97.0"
+    "@vscode/vsce": "^3.2.1"
   }
 }

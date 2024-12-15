@@ -1,30 +1,44 @@
 # NeoVim UI Modes
 
-This Visual Studio Code extension dynamically adjusts UI colors based on the current NeoVim mode.
+Enhance your coding experience with the NeoVim UI Modes extension for Visual Studio Code! This extension dynamically adjusts your UI colors based on the current NeoVim mode, providing a seamless and immersive editing environment.
 
 ![Demo](resources/demo.gif)
 
-## Modes Supported
+---
 
-- Normal
-- Insert
-- Visual
-- Replace
-- Command
+## ✨ Features
 
-## Requirements
+- **Dynamic UI Colors**: Automatic adjustment of UI colors based on NeoVim modes.
+- **Seamless Integration**: Works effortlessly with the `vscode-neovim` extension.
+- **Fully Customizable**: Personalize colors for every mode to match your preferences.
 
-- Visual Studio Code 1.96.0 or later
-- Neovim integration with VS Code (e.g., via `vscode-neovim` extension)
+### Modes Supported
 
-## Configuration
+- **Normal Mode**
+- **Insert Mode**
+- **Visual Mode**
+- **Replace Mode**
+- **Command Mode**
 
-### VS Code Settings
+---
 
-To customize the colors for each mode, you can modify your `settings.json`:
+## 📋 Requirements
+
+To use this extension, ensure the following requirements are met:
+
+- **Visual Studio Code**: Version 1.96.0 or later.
+- **NeoVim Integration**: Use a plugin like `vscode-neovim` for communication between VS Code and NeoVim.
+
+---
+
+## ⚙️ Configuration
+
+### 1. Customize UI Colors in VS Code
+
+Modify your `settings.json` file to set custom colors for each NeoVim mode:
 
 ```json
-"nvim-ui.ColorCustomizationsByModes":{
+"nvim-theme.ColorCustomizationsByModes":{
   "normal": {
     "editorCursor.foreground": "#e9dbb7",
     "activityBarBadge.background": "#e9dbb7",
@@ -63,27 +77,23 @@ To customize the colors for each mode, you can modify your `settings.json`:
 }
 ```
 
-Supported UI elemants of VScode include:
+### Supported UI Elements
+
+You can customize these and more UI elements:
 
 - `activityBarBadge.background`
 - `editorCursor.foreground`
-- `inputValidation.errorBorder`
-- `panel.border`
-- `panelTitle.activeBorder`
-- `panelTitle.activeForeground`
-- `peekView.border`
-- `peekViewTitleLabel.foreground`
-- `tab.activeBorder`
-- `statusBar.border`
 - `statusBar.background`
-- `activityBar.background`
-- `and more see` [VScode's docs](https://code.visualstudio.com/api/references/theme-color)
+- `statusBar.foreground`
+- `panel.border`
+- `tab.activeBorder`
+- See more in the [VS Code Theme Color Reference](https://code.visualstudio.com/api/references/theme-color).
 
-> **Note:** These customizations will overwrite any existing values in `workbench.colorCustomizations`.
+> **Note**: These customizations overwrite existing `workbench.colorCustomizations`.
 
-### Neovim Configuration
+---
 
-To synchronize NeoVim modes with VS Code, add the following to your Neovim `init.vim` or `init.lua`.
+### 2. Sync NeoVim Modes with VS Code
 
 #### Example for `init.lua`
 
@@ -92,41 +102,42 @@ local vscode = require("vscode")
 
 local function send_mode()
     local mode = vim.api.nvim_get_mode().mode
-    if mode == "i" then
+    if mode == "i" or mode == "" then
         vscode.call("nvim-theme.insert")
-    elseif mode == "c" or mode == "no" then
-        vscode.call("nvim-theme.insert")
-    elseif mode == "r" or mode == "R" then
-        vscode.call("nvim-theme.insert")
+    elseif mode == "c" then
+        vscode.call("nvim-theme.command")
+    elseif mode == "R" then
+        vscode.call("nvim-theme.replace")
     elseif mode == "n" then
-        vscode.call("nvim-theme.insert")
-    else
-        vscode.call("nvim-theme.insert")
+        vscode.call("nvim-theme.normal")
+    elseif mode == "V" or mode == "v" or mode == "^V" then
+        vscode.call("nvim-theme.visual")
     end
 end
+
 send_mode()
 vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave", "ModeChanged" }, {
     callback = function()
         send_mode()
     end,
-}
+})
 ```
 
 #### Example for `init.vim`
 
 ```vim
 function! SendMode()
-  let l:mode = mode()
-  if l:mode == 'i'
-    call VSCodeNotify('nvim-theme.insert')
-  elseif l:mode == 'c' || l:mode == 'no'
-    call VSCodeNotify('nvim-theme.insert')
-  elseif l:mode == 'r' || l:mode == 'R'
-    call VSCodeNotify('nvim-theme.insert')
-  elseif l:mode == 'n'
-    call VSCodeNotify('nvim-theme.insert')
-  else
-    call VSCodeNotify('nvim-theme.insert')
+  let mode = mode()
+  if mode ==# 'i' || mode ==# ''
+    call VSCodeCall('nvim-theme.insert')
+  elseif mode ==# 'c'
+    call VSCodeCall('nvim-theme.command')
+  elseif mode ==# 'R'
+    call VSCodeCall('nvim-theme.replace')
+  elseif mode ==# 'n'
+    call VSCodeCall('nvim-theme.normal')
+  elseif mode ==# 'V' || mode ==# 'v' || mode ==# '^V'
+    call VSCodeCall('nvim-theme.visual')
   endif
 endfunction
 
@@ -138,8 +149,24 @@ augroup ModeChange
 augroup END
 ```
 
-> **Warning:** When uninstalling the extension, ensure to clean up overridden keys in your `settings.json` under `workbench.colorCustomizations`.
+---
 
-If you enjoy this extension, consider supporting me with a small donation:
+## 🚨 Warnings
 
-BTC Address: `bc1qajl9nu6slw0gevk2vhl2qh0u3nepndf786g400`
+- When uninstalling this extension, clean up overridden keys in your `settings.json` under `workbench.colorCustomizations`.
+
+---
+
+## ❤️ Support the Project
+
+If you find this extension helpful, consider supporting its development:
+
+### 💸 Donate
+
+- **BTC Address**: `bc1qajl9nu6slw0gevk2vhl2qh0u3nepndf786g400`
+- **PayPal**: [paypal.me/aismith42](https://paypal.me/aismith42)
+
+---
+
+Thank you for your support! Your contributions help keep this project alive. 😊
+
