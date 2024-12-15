@@ -23,7 +23,7 @@
   "displayName": "Neovim UI Modes",
   "description": "Adjust UI colors dynamically based on NVim modes",
   "icon": "resources/logo.png",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "license": "MIT",
   "engines": {
     "vscode": "^1.96.0"

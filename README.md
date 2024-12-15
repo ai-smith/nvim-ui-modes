@@ -38,42 +38,42 @@ To use this extension, ensure the following requirements are met:
 Modify your `settings.json` file to set custom colors for each NeoVim mode:
 
 ```json
-"nvim-theme.ColorCustomizationsByModes":{
-  "normal": {
-    "editorCursor.foreground": "#e9dbb7",
-    "activityBarBadge.background": "#e9dbb7",
-    "activityBarBadge.foreground": "#252525",
-    "statusBar.background": "#252525",
-    "statusBar.foreground": "#e9dbb7"
-  },
-  "command": {
-    "editorCursor.foreground": "#e9dbb7",
-    "activityBarBadge.background": "#252525",
-    "activityBarBadge.foreground": "#e9dbb7",
-    "statusBar.background": "#e9dbb7",
-    "statusBar.foreground": "#252525"
-  },
-  "insert": {
-    "editorCursor.foreground": "#ef857d",
-    "activityBarBadge.background": "#e9dbb7",
-    "activityBarBadge.foreground": "#252525",
-    "statusBar.background": "#a87673",
-    "statusBar.foreground": "#252525"
-  },
-  "visual": {
-    "editorCursor.foreground": "#3e97f7",
-    "activityBarBadge.background": "#e9dbb7",
-    "activityBarBadge.foreground": "#252525",
-    "statusBar.background": "#83a3c9",
-    "statusBar.foreground": "#252525"
-  },
-  "replace": {
-    "editorCursor.foreground": "#72f59c",
-    "activityBarBadge.background": "#e9dbb7",
-    "activityBarBadge.foreground": "#252525",
-    "statusBar.background": "#c0dcb8",
-    "statusBar.foreground": "#252525"
-  }
+"nvim-theme.ColorCustomizationsByModes": {
+    "normal": {
+        "editorCursor.foreground": "#e9dbb7",
+        "activityBarBadge.background": "#e9dbb7",
+        "activityBarBadge.foreground": "#252525",
+        "statusBar.background": "#252525",
+        "statusBar.foreground": "#e9dbb7"
+    },
+    "command": {
+        "editorCursor.foreground": "#e9dbb7",
+        "activityBarBadge.background": "#252525",
+        "activityBarBadge.foreground": "#e9dbb7",
+        "statusBar.background": "#e9dbb7",
+        "statusBar.foreground": "#252525"
+    },
+    "insert": {
+        "editorCursor.foreground": "#ee7f77",
+        "activityBarBadge.background": "#e9dbb7",
+        "activityBarBadge.foreground": "#252525",
+        "statusBar.background": "#8d504c",
+        "statusBar.foreground": "#e9dbb7"
+    },
+    "visual": {
+        "editorCursor.foreground": "#56a4f6",
+        "activityBarBadge.background": "#e9dbb7",
+        "activityBarBadge.foreground": "#252525",
+        "statusBar.background": "#415a81",
+        "statusBar.foreground": "#e9dbb7"
+    },
+    "replace": {
+        "editorCursor.foreground": "#6af596",
+        "activityBarBadge.background": "#e9dbb7",
+        "activityBarBadge.foreground": "#252525",
+        "statusBar.background": "#39817f",
+        "statusBar.foreground": "#e9dbb7"
+    }
 }
 ```
 
@@ -127,25 +127,25 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave", "ModeChanged" }, {
 
 ```vim
 function! SendMode()
-  let mode = mode()
-  if mode ==# 'i' || mode ==# ''
-    call VSCodeCall('nvim-theme.insert')
-  elseif mode ==# 'c'
-    call VSCodeCall('nvim-theme.command')
-  elseif mode ==# 'R'
-    call VSCodeCall('nvim-theme.replace')
-  elseif mode ==# 'n'
-    call VSCodeCall('nvim-theme.normal')
-  elseif mode ==# 'V' || mode ==# 'v' || mode ==# '^V'
-    call VSCodeCall('nvim-theme.visual')
-  endif
+    let mode = mode()
+    if mode ==# 'i' || mode ==# ''
+        call VSCodeCall('nvim-theme.insert')
+    elseif mode ==# 'c'
+        call VSCodeCall('nvim-theme.command')
+    elseif mode ==# 'R'
+        call VSCodeCall('nvim-theme.replace')
+    elseif mode ==# 'n'
+        call VSCodeCall('nvim-theme.normal')
+    elseif mode ==# 'V' || mode ==# 'v' || mode ==# '^V'
+        call VSCodeCall('nvim-theme.visual')
+    endif
 endfunction
 
 call SendMode()
 
 augroup ModeChange
-  autocmd!
-  autocmd InsertEnter,InsertLeave,ModeChanged * call SendMode()
+    autocmd!
+    autocmd InsertEnter,InsertLeave,ModeChanged * call SendMode()
 augroup END
 ```
 
@@ -169,4 +169,3 @@ If you find this extension helpful, consider supporting its development:
 ---
 
 Thank you for your support! Your contributions help keep this project alive. 😊
-
