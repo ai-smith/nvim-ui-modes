@@ -21,7 +21,7 @@
     "LICENSE"
   ],
   "icon": "resources/logo.png",
-  "version": "0.8.6",
+  "version": "0.8.7",
   "license": "MIT",
   "engines": {
     "vscode": "^1.96.0"
@@ -74,37 +74,37 @@
             "normal": {
               "editorCursor.foreground": "#e9dbb7",
               "activityBarBadge.background": "#e9dbb7",
-              "activityBarBadge.foreground": "#252525",
-              "statusBar.background": "#252525",
+              "activityBarBadge.foreground": "#262626",
+              "statusBar.background": "#262626",
               "statusBar.foreground": "#e9dbb7"
             },
             "command": {
               "editorCursor.foreground": "#e9dbb7",
-              "activityBarBadge.background": "#252525",
+              "activityBarBadge.background": "#262626",
               "activityBarBadge.foreground": "#e9dbb7",
               "statusBar.background": "#e9dbb7",
-              "statusBar.foreground": "#252525"
+              "statusBar.foreground": "#262626"
             },
             "insert": {
               "editorCursor.foreground": "#ef857d",
               "activityBarBadge.background": "#e9dbb7",
-              "activityBarBadge.foreground": "#252525",
-              "statusBar.background": "#a87673",
-              "statusBar.foreground": "#252525"
+              "activityBarBadge.foreground": "#262626",
+              "statusBar.background": "#9f5a51",
+              "statusBar.foreground": "#262626"
             },
             "visual": {
               "editorCursor.foreground": "#3e97f7",
               "activityBarBadge.background": "#e9dbb7",
-              "activityBarBadge.foreground": "#252525",
-              "statusBar.background": "#83a3c9",
-              "statusBar.foreground": "#252525"
+              "activityBarBadge.foreground": "#262626",
+              "statusBar.background": "#5079b0",
+              "statusBar.foreground": "#262626"
             },
             "replace": {
               "editorCursor.foreground": "#72f59c",
               "activityBarBadge.background": "#e9dbb7",
-              "activityBarBadge.foreground": "#252525",
-              "statusBar.background": "#c0dcb8",
-              "statusBar.foreground": "#252525"
+              "activityBarBadge.foreground": "#262626",
+              "statusBar.background": "#439291",
+              "statusBar.foreground": "#262626"
             }
           },
           "description": "Define color customizations for UI elements for each NVIM mode (Normal, Insert, Visual, Replace, Command)."
