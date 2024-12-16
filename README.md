@@ -38,7 +38,7 @@ To use this extension, ensure the following requirements are met:
 Modify your `settings.json` file to set custom colors for each NeoVim mode:
 
 ```json
-"nvim-theme.ColorCustomizationsByModes": {
+"nvim-ui-modes.ColorCustomizationsByModes": {
     "normal": {
         "editorCursor.foreground": "#e9dbb7",
         "activityBarBadge.background": "#e9dbb7",
@@ -90,64 +90,6 @@ You can customize these and more UI elements:
 - See more in the [VS Code Theme Color Reference](https://code.visualstudio.com/api/references/theme-color).
 
 > **Note**: These customizations overwrite existing `workbench.colorCustomizations`.
-
----
-
-### 2. Sync NeoVim Modes with VS Code
-
-#### Example for `init.lua`
-
-```lua
-local vscode = require("vscode")
-
-local function send_mode()
-    local mode = vim.api.nvim_get_mode().mode
-    if mode == "i" or mode == "" then
-        vscode.call("nvim-theme.insert")
-    elseif mode == "c" then
-        vscode.call("nvim-theme.command")
-    elseif mode == "R" then
-        vscode.call("nvim-theme.replace")
-    elseif mode == "n" then
-        vscode.call("nvim-theme.normal")
-    elseif mode == "V" or mode == "v" or mode == "^V" then
-        vscode.call("nvim-theme.visual")
-    end
-end
-
-send_mode()
-vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave", "ModeChanged" }, {
-    callback = function()
-        send_mode()
-    end,
-})
-```
-
-#### Example for `init.vim`
-
-```vim
-function! SendMode()
-    let mode = mode()
-    if mode ==# 'i' || mode ==# ''
-        call VSCodeCall('nvim-theme.insert')
-    elseif mode ==# 'c'
-        call VSCodeCall('nvim-theme.command')
-    elseif mode ==# 'R'
-        call VSCodeCall('nvim-theme.replace')
-    elseif mode ==# 'n'
-        call VSCodeCall('nvim-theme.normal')
-    elseif mode ==# 'V' || mode ==# 'v' || mode ==# '^V'
-        call VSCodeCall('nvim-theme.visual')
-    endif
-endfunction
-
-call SendMode()
-
-augroup ModeChange
-    autocmd!
-    autocmd InsertEnter,InsertLeave,ModeChanged * call SendMode()
-augroup END
-```
 
 ---
 

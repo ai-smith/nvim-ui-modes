@@ -1,6 +1,8 @@
 {
-  "author": "Timur Kussainov kusainov.timur@gmail.com",
   "name": "nvim-ui-modes",
+  "displayName": "Neovim UI Modes",
+  "description": "Adjust UI colors dynamically based on NVim modes",
+  "author": "Timur Kussainov kusainov.timur@gmail.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/ai-smith/nvim-ui-modes.git"
@@ -13,17 +15,13 @@
     "modes"
   ],
   "files": [
-  "README.md",
-  "resources/demo.gif",
-  "resources/logo.png",
-  "LICENSE",
-  "src/**/*",
-  "out/*"
+    "out/*",
+    "README.md",
+    "resources/logo.png",
+    "LICENSE"
   ],
-  "displayName": "Neovim UI Modes",
-  "description": "Adjust UI colors dynamically based on NVim modes",
   "icon": "resources/logo.png",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "license": "MIT",
   "engines": {
     "vscode": "^1.96.0"
@@ -37,35 +35,37 @@
     "workspace"
   ],
   "publisher": "AI-Smith",
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "nvim-theme.normal",
-        "title": "NVIM Normal"
+        "command": "nvim-ui-modes.normal",
+        "title": "Neovim: Color mode normal"
       },
       {
-        "command": "nvim-theme.command",
-        "title": "NVIM Command"
+        "command": "nvim-ui-modes.command",
+        "title": "Neovim: Color mode  command"
       },
       {
-        "command": "nvim-theme.insert",
-        "title": "NVIM Insert"
+        "command": "nvim-ui-modes.insert",
+        "title": "Neovim: Color mode  insert"
       },
       {
-        "command": "nvim-theme.visual",
-        "title": "NVIM Visual"
+        "command": "nvim-ui-modes.visual",
+        "title": "Neovim: Color mode  visual"
       },
       {
-        "command": "nvim-theme.replace",
-        "title": "NVIM Replace"
+        "command": "nvim-ui-modes.replace",
+        "title": "Neovim: Color mode  replace"
       }
     ],
     "configuration": {
-      "title": "nvim-ui",
+      "title": "Neovim Color Modes",
       "properties": {
-        "nvim-theme.ColorCustomizationsByModes": {
+        "nvim-ui-modes.colorCustomizations": {
           "type": "object",
           "default": {
             "normal": {
@@ -111,17 +111,13 @@
   },
   "scripts": {
     "build": "tsc --project tsconfig.json",
-    "package": "vsce package",
+    "package": "vsce package --allow-unused-files-pattern",
     "prepare": "npm run build"
   },
   "devDependencies": {
     "@types/node": "^v22.10.2",
     "@types/vscode": "^1.96.0",
-    "@typescript-eslint/eslint-plugin": "^8.18.0",
-    "@typescript-eslint/parser": "^8.18.0",
-    "eslint": "^9.17.0",
-    "prettier": "^3.4.2",
-    "typescript": "^5.7.2",
-    "@vscode/vsce": "^3.2.1"
+    "@vscode/vsce": "^3.2.1",
+    "typescript": "^5.7.2"
   }
 }
