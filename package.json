@@ -14,14 +14,8 @@
     "vscode",
     "modes"
   ],
-  "files": [
-    "out/*",
-    "README.md",
-    "resources/logo.png",
-    "LICENSE"
-  ],
   "icon": "resources/logo.png",
-  "version": "0.8.7",
+  "version": "0.9.0",
   "license": "MIT",
   "engines": {
     "vscode": "^1.96.0"
@@ -90,21 +84,21 @@
               "activityBarBadge.background": "#e9dbb7",
               "activityBarBadge.foreground": "#262626",
               "statusBar.background": "#9f5a51",
-              "statusBar.foreground": "#262626"
+              "statusBar.foreground": "#e9dbb7"
             },
             "visual": {
               "editorCursor.foreground": "#3e97f7",
               "activityBarBadge.background": "#e9dbb7",
               "activityBarBadge.foreground": "#262626",
               "statusBar.background": "#5079b0",
-              "statusBar.foreground": "#262626"
+              "statusBar.foreground": "#e9dbb7"
             },
             "replace": {
-              "editorCursor.foreground": "#72f59c",
+
               "activityBarBadge.background": "#e9dbb7",
               "activityBarBadge.foreground": "#262626",
               "statusBar.background": "#439291",
-              "statusBar.foreground": "#262626"
+              "statusBar.foreground": "#e9dbb7"
             }
           },
           "description": "Define color customizations for UI elements for each NVIM mode (Normal, Insert, Visual, Replace, Command)."
@@ -114,7 +108,7 @@
   },
   "scripts": {
     "build": "tsc --project tsconfig.json",
-    "package": "vsce package --allow-unused-files-pattern",
+    "package": "vsce package",
     "prepare": "npm run build"
   },
   "devDependencies": {

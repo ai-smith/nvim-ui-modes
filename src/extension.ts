@@ -16,30 +16,38 @@ function updateColors(
   workbenchConfig.update('colorCustomizations', colorCustomizations, vscode.ConfigurationTarget.Workspace);
 }
 
-function addLuaConfig() {
-  const luaCode = [
-      "local vscode = require('vscode')",
-      "local function send_mode()",
-      "  local mode = vim.api.nvim_get_mode().mode",
-      "  if mode == 'i' or mode == '' then",
-      "    vscode.call('nvim-ui-modes.insert')",
-      "  elseif mode == 'c' then",
-      "    vscode.call('nvim-ui-modes.command')",
-      "  elseif mode == 'R' then",
-      "    vscode.call('nvim-ui-modes.replace')",
-      "  elseif mode == 'n' then",
-      "    vscode.call('nvim-ui-modes.normal')",
-      "  elseif mode == 'V' or mode == 'v' or mode == '^V' then",
-      "    vscode.call('nvim-ui-modes.visual')",
-      "  end",
-      "end",
-      "send_mode()",
-      "vim.api.nvim_create_autocmd({ 'InsertEnter', 'InsertLeave', 'ModeChanged' }, {",
-      "  callback = function()",
-      "    send_mode()",
-      "  end,",
-      "})"
-  ];
+const luaCreateConfig = [
+  "local vscode = require('vscode')",
+  "local function send_mode()",
+  "  local mode = vim.api.nvim_get_mode().mode",
+  "  if mode == 'i' or mode == '' then",
+  "    vscode.call('nvim-ui-modes.insert')",
+  "  elseif mode == 'c' then",
+  "    vscode.call('nvim-ui-modes.command')",
+  "  elseif mode == 'R' then",
+  "    vscode.call('nvim-ui-modes.replace')",
+  "  elseif mode == 'n' then",
+  "    vscode.call('nvim-ui-modes.normal')",
+  "  elseif mode == 'V' or mode == 'v' or mode == '^V' then",
+  "    vscode.call('nvim-ui-modes.visual')",
+  "  end",
+  "end",
+  "local group = vim.api.nvim_create_augroup('nvim-ui-modes', { clear = true })",
+  "send_mode()",
+  "vim.api.nvim_create_autocmd({ 'InsertEnter', 'InsertLeave', 'ModeChanged' }, {",
+  "  group = group,",
+  "  callback = function()",
+  "    send_mode()",
+  "  end,",
+  "})"
+];
+
+const luaDeleteConfig = [
+  "pcall(vim.api.nvim_clear_autocmds, { group = 'nvim-ui-modes' })",
+  "pcall(vim.api.nvim_del_augroup_by_name, 'nvim-ui-modes')"
+];
+
+function executeCommand(luaCode: string[]) {
   vscode.commands.executeCommand('vscode-neovim.lua', luaCode);
 }
 
@@ -62,10 +70,12 @@ export function activate(context: vscode.ExtensionContext) {
   const interval = setInterval(async () => {
     const commands = await vscode.commands.getCommands(true);
     if (commands.includes('vscode-neovim.lua')) {
-      addLuaConfig()
+      executeCommand(luaCreateConfig)
       clearInterval(interval);
     }
   }, 1000);
 }
 
-export function deactivate() {}
+export function deactivate() {
+  executeCommand(luaDeleteConfig)
+}
