@@ -3,6 +3,7 @@
   "displayName": "Neovim UI Modes",
   "description": "Adjust UI colors dynamically based on NVim modes",
   "author": "Timur Kussainov kusainov.timur@gmail.com",
+  "type": "commonjs",
   "repository": {
     "type": "git",
     "url": "https://github.com/ai-smith/nvim-ui-modes.git"
@@ -62,6 +63,16 @@
     "configuration": {
       "title": "Neovim Color Modes",
       "properties": {
+        "nvim-ui-modes.configurationTarget": {
+          "type": "string",
+          "default": "Global",
+          "enum": [
+            "Global",
+            "Workspace",
+            "WorkspaceFolder"
+          ],
+          "description": "Configuration target for NVIM UI Modes."
+        },
         "nvim-ui-modes.colorCustomizations": {
           "type": "object",
           "default": {
@@ -94,7 +105,6 @@
               "statusBar.foreground": "#e9dbb7"
             },
             "replace": {
-
               "activityBarBadge.background": "#e9dbb7",
               "activityBarBadge.foreground": "#262626",
               "statusBar.background": "#439291",
@@ -107,7 +117,7 @@
     }
   },
   "scripts": {
-    "build": "tsc --project tsconfig.json",
+    "build": "vite build",
     "package": "vsce package",
     "prepare": "npm run build"
   },
@@ -115,6 +125,7 @@
     "@types/node": "^v22.10.2",
     "@types/vscode": "^1.96.0",
     "@vscode/vsce": "^3.2.1",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "vite": "^6.0.11"
   }
 }

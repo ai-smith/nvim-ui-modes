@@ -1,4 +1,15 @@
 import * as vscode from 'vscode';
+import createLua from './create.lua?raw';
+import deleteLua from './delete.lua?raw';
+
+function getExtentionId() {
+  return 'nvim-ui-modes';
+}
+
+const luaCreateConfig = createLua.split('\n');
+
+const luaDeleteConfig = deleteLua.split('\n');
+
 
 function getConfiguration(section = '', resource: vscode.Uri | null = null) {
   return vscode.workspace.getConfiguration(section, resource);
@@ -11,60 +22,49 @@ function getColorCustomization(config: vscode.WorkspaceConfiguration) {
 
 function updateColors(
   workbenchConfig: vscode.WorkspaceConfiguration,
-  colorCustomizations: Record<string, string>
+  colorCustomizations: Record<string, string>,
+  configrationTarget: vscode.ConfigurationTarget
 ) {
-  workbenchConfig.update('colorCustomizations', colorCustomizations, vscode.ConfigurationTarget.Workspace);
+  workbenchConfig.update('colorCustomizations', colorCustomizations, configrationTarget);
 }
-
-
-const luaCreateConfig = [
-
-  "local vscode = require('vscode')",
-  "local function send_mode()",
-  "  local mode = vim.api.nvim_get_mode().mode",
-  "  if mode == 'i' or mode == '' then",
-  "    vscode.call('nvim-ui-modes.insert')",
-  "  elseif mode == 'c' then",
-  "    vscode.call('nvim-ui-modes.command')",
-  "  elseif mode == 'R' then",
-  "    vscode.call('nvim-ui-modes.replace')",
-  "  elseif mode == 'n' then",
-  "    vscode.call('nvim-ui-modes.normal')",
-  "  elseif mode == 'V' or mode == 'v' or mode == '\\x16' then",
-  "    vscode.call('nvim-ui-modes.visual')",
-  "  end",
-  "end",
-  "local group = vim.api.nvim_create_augroup('nvim-ui-modes', { clear = true })",
-  "send_mode()",
-  "vim.api.nvim_create_autocmd({ 'InsertEnter', 'InsertLeave', 'ModeChanged' }, {",
-  "  group = group,",
-  "  callback = function()",
-  "    send_mode()",
-  "  end,",
-  "})"
-];
-
-const luaDeleteConfig = [
-  "pcall(vim.api.nvim_clear_autocmds, { group = 'nvim-ui-modes' })",
-  "pcall(vim.api.nvim_del_augroup_by_name, 'nvim-ui-modes')"
-];
 
 function executeCommand(luaCode: string[]) {
   vscode.commands.executeCommand('vscode-neovim.lua', luaCode);
 }
 
+function loadConfigrationTargetSetting(settingId: string)
+{
+  return getConfiguration().get<string>(settingId,'Global');
+}
+
+function getConfigrationTarget(configrationTarget: string) {
+  switch (configrationTarget) {
+    case 'Global':
+      return vscode.ConfigurationTarget.Global;
+    case 'Workspace':
+      return vscode.ConfigurationTarget.Workspace;
+    case 'WorkspaceFolder':
+      return vscode.ConfigurationTarget.WorkspaceFolder;
+    default:
+      return vscode.ConfigurationTarget.Global;
+  }
+}
+
 export function activate(context: vscode.ExtensionContext) {
+  const id = getExtentionId();
   const activeTextEditor = vscode.window.activeTextEditor;
   const resource = activeTextEditor ? activeTextEditor.document.uri : null;
 
   const workbenchConfig = getConfiguration('workbench', resource);
-  const colorCustomizations = getColorCustomization(getConfiguration('nvim-ui-modes', resource));
+  const colorCustomizations = getColorCustomization(getConfiguration(id, resource));
+  const target = loadConfigrationTargetSetting(`${id}.configrationTarget`);
+  const configrationTarget = getConfigrationTarget(target);
 
   const modes = ['normal', 'command', 'insert', 'visual', 'replace'];
 
   modes.forEach((mode) => {
-    const disposable = vscode.commands.registerCommand(`nvim-ui-modes.${mode}`, () => {
-      updateColors(workbenchConfig, colorCustomizations[mode]);
+    const disposable = vscode.commands.registerCommand(`${id}.${mode}`, () => {
+      updateColors(workbenchConfig, colorCustomizations[mode], configrationTarget);
     });
     context.subscriptions.push(disposable);
   });
