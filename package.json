@@ -3,7 +3,7 @@
   "displayName": "Neovim UI Modes",
   "description": "Adjust UI colors dynamically based on NVim modes",
   "author": "Timur Kussainov kusainov.timur@gmail.com",
-  "type": "module",
+  "type": "commonjs",
   "repository": {
     "type": "git",
     "url": "https://github.com/ai-smith/nvim-ui-modes.git"
@@ -107,7 +107,7 @@
     }
   },
   "scripts": {
-    "build": "tsc --project tsconfig.json",
+    "build": "vite build",
     "package": "vsce package",
     "prepare": "npm run build"
   },
