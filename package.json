@@ -63,6 +63,16 @@
     "configuration": {
       "title": "Neovim Color Modes",
       "properties": {
+        "nvim-ui-modes.configurationTarget": {
+          "type": "string",
+          "default": "Global",
+          "enum": [
+            "Global",
+            "Workspace",
+            "WorkspaceFolder"
+          ],
+          "description": "Configuration target for NVIM UI Modes."
+        },
         "nvim-ui-modes.colorCustomizations": {
           "type": "object",
           "default": {

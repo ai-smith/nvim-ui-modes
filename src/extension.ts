@@ -22,13 +22,32 @@ function getColorCustomization(config: vscode.WorkspaceConfiguration) {
 
 function updateColors(
   workbenchConfig: vscode.WorkspaceConfiguration,
-  colorCustomizations: Record<string, string>
+  colorCustomizations: Record<string, string>,
+  configrationTarget: vscode.ConfigurationTarget
 ) {
-  workbenchConfig.update('colorCustomizations', colorCustomizations, vscode.ConfigurationTarget.Workspace);
+  workbenchConfig.update('colorCustomizations', colorCustomizations, configrationTarget);
 }
 
 function executeCommand(luaCode: string[]) {
   vscode.commands.executeCommand('vscode-neovim.lua', luaCode);
+}
+
+function loadConfigrationTargetSetting(settingId: string)
+{
+  return getConfiguration().get<string>(settingId,'Global');
+}
+
+function getConfigrationTarget(configrationTarget: string) {
+  switch (configrationTarget) {
+    case 'Global':
+      return vscode.ConfigurationTarget.Global;
+    case 'Workspace':
+      return vscode.ConfigurationTarget.Workspace;
+    case 'WorkspaceFolder':
+      return vscode.ConfigurationTarget.WorkspaceFolder;
+    default:
+      return vscode.ConfigurationTarget.Global;
+  }
 }
 
 export function activate(context: vscode.ExtensionContext) {
@@ -38,12 +57,14 @@ export function activate(context: vscode.ExtensionContext) {
 
   const workbenchConfig = getConfiguration('workbench', resource);
   const colorCustomizations = getColorCustomization(getConfiguration(id, resource));
+  const target = loadConfigrationTargetSetting(`${id}.configrationTarget`);
+  const configrationTarget = getConfigrationTarget(target);
 
   const modes = ['normal', 'command', 'insert', 'visual', 'replace'];
 
   modes.forEach((mode) => {
     const disposable = vscode.commands.registerCommand(`${id}.${mode}`, () => {
-      updateColors(workbenchConfig, colorCustomizations[mode]);
+      updateColors(workbenchConfig, colorCustomizations[mode], configrationTarget);
     });
     context.subscriptions.push(disposable);
   });
